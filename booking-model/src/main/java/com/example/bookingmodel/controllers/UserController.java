@@ -1,6 +1,6 @@
 package com.example.bookingmodel.controllers;
 
-import com.example.bookingmodel.data.dto.CustomerDTO;
+import com.example.bookingmodel.data.dto.CustomerDto;
 import com.example.bookingmodel.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users")
-    public List<CustomerDTO> getUsres() {
+    public List<CustomerDto> getUsres() {
         log.info("Start to retrieve all users...");
         return userService.findAllUsers();
     }

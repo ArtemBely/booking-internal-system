@@ -15,15 +15,18 @@ import java.util.List;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoleDTO {
+public class RoleDto {
 
     private int id;
 
     @NotEmpty
-    private String role_name;
+    private String rolename;
 
     @NotEmpty
-    private String role_description;
+    private String ldapRole;
 
-    private List<CustomerDTO> customerDTOList;
+    @NotEmpty
+    private String description;
+
+    private List<CustomerDto> customerDTOList;
 }

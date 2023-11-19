@@ -1,9 +1,7 @@
 package com.example.bookingmodel.data.mapper;
 
-import com.example.bookingmodel.data.dto.CustomerDTO;
-import com.example.bookingmodel.data.dto.RoleDTO;
-import com.example.bookingmodel.data.entity.CustomerEntity;
-import com.example.bookingmodel.data.entity.RoleEntity;
+import com.example.bookingmodel.data.dto.RoleDto;
+import com.example.bookingmodel.data.entity.Role;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -14,11 +12,11 @@ public class RoleMapper {
 
     private final ModelMapper modelMapper;
 
-    public RoleEntity mapToEntity(RoleDTO dto) {
-        return modelMapper.map(dto, RoleEntity.class).toBuilder().build();
+    public Role mapToEntity(RoleDto dto) {
+        return modelMapper.map(dto, Role.class).toBuilder().build();
     }
 
-    public RoleDTO mapToDto(RoleEntity entity) {
-        return modelMapper.map(entity, RoleDTO.class).toBuilder().build();
+    public RoleDto mapToDto(Role entity) {
+        return modelMapper.map(entity, RoleDto.class).toBuilder().build();
     }
 }

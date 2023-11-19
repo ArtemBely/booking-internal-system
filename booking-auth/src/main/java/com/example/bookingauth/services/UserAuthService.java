@@ -1,8 +1,8 @@
 package com.example.bookingauth.services;
 
-import com.example.bookingmodel.data.dto.CustomerDTO;
-import com.example.bookingmodel.data.entity.CustomerEntity;
-import com.example.bookingmodel.data.entity.UserRoleEntity;
+import com.example.bookingmodel.data.dto.CustomerDto;
+import com.example.bookingmodel.data.entity.Customer;
+import com.example.bookingmodel.data.entity.UserRole;
 import com.example.bookingmodel.data.mapper.CustomerMapper;
 import com.example.bookingmodel.repositories.CustomerRepository;
 import com.example.bookingmodel.repositories.UserRoleRepository;
@@ -55,9 +55,9 @@ public class UserAuthService {
      * @param customerDTO
      * @return
      */
-    public boolean matchPassword(CustomerDTO customerDTO) {
+    public boolean matchPassword(CustomerDto customerDTO) {
         String plainPassword = customerDTO.getPassword();
-        Optional<CustomerEntity> customerEntity = customerRepository.findById(3);
+        Optional<Customer> customerEntity = customerRepository.findById(3);
         return encryptionService.checkPassword(plainPassword, customerEntity.get().getPassword());
     }
 
@@ -82,8 +82,8 @@ public class UserAuthService {
 //                .build();
 //    }
 
-    public AuthenticationResponse register(CustomerDTO request) {
-        CustomerEntity customerEntity = customerMapper.mapToEntity(request);
+    public AuthenticationResponse register(CustomerDto request) {
+        Customer customerEntity = customerMapper.mapToEntity(request);
         customerEntity.setPassword(encryptionService.getEncodePass(request.getPassword()));
         var savedUser = customerRepository.save(customerEntity);
         declareDefaultRoleForNewCustomer(savedUser);
@@ -94,10 +94,10 @@ public class UserAuthService {
                 .build();
     }
 
-    public void declareDefaultRoleForNewCustomer(CustomerEntity customerEntity) {
+    public void declareDefaultRoleForNewCustomer(Customer customerEntity) {
         log.info("Saving default User role...");
         userRoleRepository.save(
-                new UserRoleEntity(
+                new UserRole(
                         customerEntity.getId(),
                         DefaultConstants.DEFAULT_USER_ROLE_ID));
     }

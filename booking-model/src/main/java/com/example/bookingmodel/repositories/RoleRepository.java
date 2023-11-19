@@ -1,7 +1,7 @@
 package com.example.bookingmodel.repositories;
 
-import com.example.bookingmodel.data.entity.RoleEntity;
+import com.example.bookingmodel.data.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RoleRepository extends JpaRepository<RoleEntity, Integer> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 }

@@ -7,57 +7,79 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-@Entity(name = "CustomerEntity")
+@Entity(name = "Customer")
 @Builder(toBuilder = true)
 @Table(name = "customer")
 @NoArgsConstructor
 @AllArgsConstructor
-//@RequiredArgsConstructor
 @Setter
 @Getter
 @Component
 @ToString
-public class CustomerEntity implements UserDetails {
+public class Customer implements UserDetails {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "NAME", nullable = false)
     private String name;
 
-    @Column(name = "surname", nullable = false)
+    @Column(name = "SURNAME", nullable = false)
     private String surname;
 
-    @Column(name = "phone", nullable = false)
+    @Column(name = "PHONE", nullable = false)
     private String phone;
 
-    @Column(name = "dateofbirth", nullable = false)
+    @Column(name = "DATEOFBIRD", nullable = false)
     private Date dateOfBirth;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
+
+    @Size(max = 10)
+    @Column(name = "\"level\"", length = 10)
+    private String level;
+
+    @Column(name = "LEVEL_ID")
+    private Long levelId;
+
+
+    @Column(name = "WAITING_LIST_ID")
+    private Long waitingListId;
+
+
+    @Column(name = "ADDRESS_ID")
+    private Long addressId;
+
+//    @OneToMany(mappedBy = "idUser")
+//    private Set<UserRole> userRoles = new LinkedHashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_role")
     )
-    private List<RoleEntity> roles;
+    private List<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole_name()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRolename()))
                 .collect(Collectors.toList());
     }
 

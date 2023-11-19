@@ -2,18 +2,16 @@ server:
     port: 8080
 
 spring:
-#    autoconfigure:
-#        exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
     jpa:
         hibernate:
             ddl-auto: none
             default_schema: DEFAULT
-        database: postgresql
+        database: oracle
     h2:
         console:
             enabled: 'true'
     datasource:
-        driver-class-name: org.postgresql.Driver
-        url: jdbc:postgresql://localhost:5432/jasonbourn
-        username: postgres
-        password': postgres
+        driver-class-name: oracle.jdbc.OracleDriver
+        url: jdbc:oracle:thin:@fei-sql3.upceucebny.cz:1521:BDAS
+        username: st67263
+        password: abcde

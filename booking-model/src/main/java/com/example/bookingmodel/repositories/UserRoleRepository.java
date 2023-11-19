@@ -1,7 +1,7 @@
 package com.example.bookingmodel.repositories;
 
-import com.example.bookingmodel.data.entity.UserRoleEntity;
+import com.example.bookingmodel.data.entity.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRoleRepository extends JpaRepository<UserRoleEntity, Integer> {
+public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
 }
