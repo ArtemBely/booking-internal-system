@@ -1,4 +1,4 @@
-package com.example.bookingmodel.controllers;
+package com.example.bookingmain.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,4 +18,3 @@ public class HomeController {
         return "Hello there";
     }
 }
-

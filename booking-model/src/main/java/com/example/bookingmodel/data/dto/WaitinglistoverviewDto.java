@@ -7,16 +7,18 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
- * DTO for {@link com.example.bookingmodel.data.entity.Address}
+ * DTO for {@link com.example.bookingmodel.data.entity.Waitinglistoverview}
  */
 @Value
-public class AddressDto implements Serializable {
+public class WaitinglistoverviewDto implements Serializable {
     @NotNull
-    Long id;
+    Long countOfPerson;
+    @NotNull
+    @Size(max = 25)
+    String customerName;
+    @NotNull
+    Long hasDiscount;
     @NotNull
     @Size(max = 30)
     String street;
-    @NotNull
-    Long housenumber;
-    Long orderOrdId;
 }

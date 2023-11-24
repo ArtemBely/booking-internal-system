@@ -2,6 +2,7 @@ package com.example.bookingmodel.data.dto;
 
 import com.example.bookingmodel.data.entity.Role;
 import com.example.bookingmodel.data.entity.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CustomerDto {
 
+    @JsonIgnore
     private int id;
 
     @NotNull
@@ -44,32 +46,27 @@ public class CustomerDto {
     @NotNull
     private String phone;
 
+    @NotNull
     private Date dateOfBirth;
 
     @NotNull
     private String email;
 
-    @NotNull
     private String password;
 
 
-    private List<Role> roles;
-
-    @Size(max = 10)
-    private String level;
-
-
-    private LocalDate dateofbird;
+    private LocalDate dateofbirth;
 
 
     private Long levelId;
 
 
-    private Long waitingListId;
-
-
     private Long addressId;
 
 
-    private Set<RoleDto> userRoles = new LinkedHashSet<>();
+    private Long contentId;
+
+//    @NotNull
+    private List<RoleDto> roles;
+
 }

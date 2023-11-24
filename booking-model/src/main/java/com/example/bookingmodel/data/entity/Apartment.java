@@ -46,4 +46,7 @@ public class Apartment {
     @Column(name = "PRODUCT_INFORMATION_ID", nullable = false)
     private Long productInformationId;
 
+    @Column(name = "BINARY_CONTENT_ID")
+    private Long contentId;
+
 }

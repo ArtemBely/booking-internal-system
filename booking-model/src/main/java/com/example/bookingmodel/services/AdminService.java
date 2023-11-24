@@ -4,11 +4,12 @@ import com.example.bookingmodel.data.dto.CustomerDto;
 import com.example.bookingmodel.data.entity.Customer;
 import com.example.bookingmodel.data.entity.Role;
 import com.example.bookingmodel.data.mapper.CustomerMapper;
+import com.example.bookingmodel.interfaces.IAdminService;
 import com.example.bookingmodel.interfaces.IUserService;
 import com.example.bookingmodel.repositories.CustomerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class UserService implements IUserService {
+public class AdminService implements IAdminService {
 
     private final CustomerRepository customerRepository;
 
@@ -31,7 +32,7 @@ public class UserService implements IUserService {
     private String getAllUserRoles;
 
     @Autowired
-    public UserService(CustomerRepository customerRepository,
+    public AdminService(CustomerRepository customerRepository,
                        CustomerMapper customerMapper,
                        JdbcTemplate jdbcTemplate,
                        @Value("${sql.allUsers}") String findRolesByCustomerIdQuery,
@@ -43,6 +44,7 @@ public class UserService implements IUserService {
         this.getAllUserRoles = getAllUserRoles;
     }
 
+    @Override
     public List<CustomerDto> findAllUsersByQuery() {
         String sd = getAllUsers;
         List<Customer> customers = jdbcTemplate.query(sd, new BeanPropertyRowMapper<>(Customer.class));

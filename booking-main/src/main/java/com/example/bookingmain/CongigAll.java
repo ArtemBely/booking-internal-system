@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @ComponentScan("com.example.bookingmain")
-//@EnableJpaRepositories("com.example.bookingmain.repositories")
 @Configuration
 public class CongigAll {
 
@@ -18,8 +17,5 @@ public class CongigAll {
         ObjectMapper objectMapper = new ObjectMapper();
         return new JacksonEncoder(objectMapper);
     }
-
-    @Bean
-    public ModelMapper modelMapper() { return new ModelMapper(); }
 
 }

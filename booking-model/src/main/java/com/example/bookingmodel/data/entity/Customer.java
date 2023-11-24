@@ -7,14 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity(name = "Customer")
@@ -41,7 +37,7 @@ public class Customer implements UserDetails {
     @Column(name = "PHONE", nullable = false)
     private String phone;
 
-    @Column(name = "DATEOFBIRD", nullable = false)
+    @Column(name = "DATEOFBIRTH", nullable = false)
     private Date dateOfBirth;
 
     @Column(name = "EMAIL", nullable = false)
@@ -50,20 +46,15 @@ public class Customer implements UserDetails {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    @Size(max = 10)
-    @Column(name = "\"level\"", length = 10)
-    private String level;
-
     @Column(name = "LEVEL_ID")
     private Long levelId;
 
 
-    @Column(name = "WAITING_LIST_ID")
-    private Long waitingListId;
-
-
     @Column(name = "ADDRESS_ID")
     private Long addressId;
+
+    @Column(name = "BINARY_CONTENT_ID")
+    private Long contentId;
 
 //    @OneToMany(mappedBy = "idUser")
 //    private Set<UserRole> userRoles = new LinkedHashSet<>();
@@ -75,6 +66,7 @@ public class Customer implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "id_role")
     )
     private List<Role> roles;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

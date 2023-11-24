@@ -61,30 +61,10 @@ public class UserAuthService {
         return encryptionService.checkPassword(plainPassword, customerEntity.get().getPassword());
     }
 
-//    public AuthenticationResponse register(CustomerDTO request) {
-//        var customerEntity = CustomerEntity.builder()
-//                .name(request.getName())
-//                .surname(request.getSurname())
-//                .email(request.getEmail())
-//                .password(encryptionService.getEncodePass(request.getPassword()))
-////                .password(request.getPassword())
-//                .phone(request.getPhone())
-//                .dateOfBirth(request.getDateofbirth())
-//                .build();
-//        var savedUser = customerRepository.save(customerEntity);
-//        var jwtToken = jwtService.generateToken(savedUser);
-//        var refreshToken = jwtService.generateRefreshToken(savedUser);
-////        saveUserToken(savedUser, jwtToken);
-//        return AuthenticationResponse.builder()
-//                .token(jwtToken)
-////                .accessToken(jwtToken)
-////                .refreshToken(refreshToken)
-//                .build();
-//    }
-
     public AuthenticationResponse register(CustomerDto request) {
         Customer customerEntity = customerMapper.mapToEntity(request);
         customerEntity.setPassword(encryptionService.getEncodePass(request.getPassword()));
+        customerEntity.setLevelId(DefaultConstants.DEFAULT_USER_LEVEL);
         var savedUser = customerRepository.save(customerEntity);
         declareDefaultRoleForNewCustomer(savedUser);
         var jwtToken = jwtService.generateToken(savedUser);

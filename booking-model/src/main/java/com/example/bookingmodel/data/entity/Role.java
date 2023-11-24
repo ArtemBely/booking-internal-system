@@ -1,5 +1,6 @@
 package com.example.bookingmodel.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +40,7 @@ public class Role {
     private String description;
 
     @ToString.Exclude
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private List<Customer> customerEntities;
 
     @OneToMany(mappedBy = "idRole")

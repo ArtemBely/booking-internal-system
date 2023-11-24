@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 @Value
 public class ApartmentDto implements Serializable {
+
     @NotNull
     Long aptId;
     @NotNull
@@ -24,4 +25,5 @@ public class ApartmentDto implements Serializable {
     Long waitingListId;
     @NotNull
     Long productInformationId;
+    Long contentId;
 }
