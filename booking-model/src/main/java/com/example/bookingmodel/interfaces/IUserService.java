@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    List<CustomerDto> findAllUsersByQuery();
+    String getNextLevel();
+
+    String getBirthdayData();
 }

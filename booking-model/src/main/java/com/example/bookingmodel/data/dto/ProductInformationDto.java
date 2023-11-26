@@ -1,5 +1,6 @@
 package com.example.bookingmodel.data.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Value;
 
 import javax.validation.constraints.Size;
@@ -10,6 +11,8 @@ import java.io.Serializable;
  */
 @Value
 public class ProductInformationDto implements Serializable {
+
+    @JsonIgnore
     Long id;
     @Size(max = 500)
     String description;

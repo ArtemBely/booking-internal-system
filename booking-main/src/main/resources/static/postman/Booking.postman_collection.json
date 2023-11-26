@@ -14,7 +14,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXNvbmJvdXJuZUBnbWFpbC5jb20iLCJpYXQiOjE2OTkxOTMzOTEsImV4cCI6MTY5OTE5NDU5MX0.vpQB0Sl46nTGA1D7ays883VBU-7ypYL0tZvFhphcEIo",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDA4NDAyODIsImV4cCI6MTcwMDg0MTQ4Mn0.gMwDm5_nckgA609GYAlC-MHOB_5LWWidub3b640eaYA",
 							"type": "string"
 						}
 					]
@@ -22,12 +22,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v1/reg-demo/demo",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/api/v1/reg-demo/demo",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -41,11 +39,21 @@
 		{
 			"name": "create user",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXNvbmJvdXJuZUBnbWFpbC5jb20iLCJpYXQiOjE2OTkxOTMzOTEsImV4cCI6MTY5OTE5NDU5MX0.vpQB0Sl46nTGA1D7ays883VBU-7ypYL0tZvFhphcEIo",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Alansew\",\r\n    \"surname\": \"Smithz\",\r\n    \"phone\": \"4209984731\",\r\n    \"dateofbirth\": \"2012-12-02\",\r\n    \"email\": \"2test2@googleuyu.com\",\r\n    \"password\": \"password1\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Gayla\",\r\n    \"surname\": \"Popeley\",\r\n    \"phone\": \"454-392-8050\",\r\n    \"dateOfBirth\": \"1997-11-01\",\r\n    \"email\": \"gpopeley0@altervista.org\",\r\n    \"password\": \"12345\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -53,12 +61,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/auth/create",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/api/v1/auth/create",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -107,7 +113,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0YW1teUBnb29nbGV1eXUuY29tIiwiaWF0IjoxNjk5MTA4MzA4LCJleHAiOjE2OTkxMDkyMDh9.HyHKEp3kf7XU3eEb9MnMnC17wnof6HCcfIhzr1vweN8",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0M0BnbWFpbC5jb20iLCJpYXQiOjE3MDA4MjcyMDEsImV4cCI6MTcwMDgyODQwMX0.lFZI6kXTbHsHuHUEttIaHi85Q5XLKCUKEfC71kZHI00",
 							"type": "string"
 						}
 					]
@@ -116,7 +122,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"jasonbourne@gmail.com\",\r\n    \"password\": \"admin\"\r\n}",
+					"raw": "{\r\n    // \"email\": \"jasonbourne@gmail.com\",\r\n    // \"password\": \"admin\"\r\n    \"email\": \"test2@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -124,48 +130,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/auth/authenticate",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/api/v1/auth/authenticate",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"v1",
 						"auth",
 						"authenticate"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get all users",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXNvbmJvdXJuZUBnbWFpbC5jb20iLCJpYXQiOjE2OTkxOTMzOTEsImV4cCI6MTY5OTE5NDU5MX0.vpQB0Sl46nTGA1D7ays883VBU-7ypYL0tZvFhphcEIo",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/v1/users",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"users"
 					]
 				}
 			},
@@ -179,7 +152,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXNvbmJvdXJuZUBnbWFpbC5jb20iLCJpYXQiOjE2OTkxOTMzOTEsImV4cCI6MTY5OTE5NDU5MX0.vpQB0Sl46nTGA1D7ays883VBU-7ypYL0tZvFhphcEIo",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDA4NDAyODIsImV4cCI6MTcwMDg0MTQ4Mn0.gMwDm5_nckgA609GYAlC-MHOB_5LWWidub3b640eaYA",
 							"type": "string"
 						}
 					]
@@ -187,15 +160,567 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/admin/dashboard",
-					"protocol": "http",
+					"raw": "{{baseUrlAdmin}}/dashboard",
 					"host": [
-						"localhost"
+						"{{baseUrlAdmin}}"
 					],
-					"port": "8080",
 					"path": [
-						"admin",
 						"dashboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user test",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0M0BnbWFpbC5jb20iLCJpYXQiOjE3MDA4NDAyMjIsImV4cCI6MTcwMDg0MTQyMn0.zJgLyOi6EHILtVqqJFw3w84bhWwPEOPZXFSdvzMcYGk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlUser}}/dashboard",
+					"host": [
+						"{{baseUrlUser}}"
+					],
+					"path": [
+						"dashboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all users from admin dashboard",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMjM4NTIsImV4cCI6MTcwMTAyNTA1Mn0.bQo7ZTI9CIJF2heeFmH5FnjJw6p9AODX2wNpgOyekJU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAdmin}}/users",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all orders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMDM2MDEsImV4cCI6MTcwMTAwNDgwMX0.I1JR39ay1u-lJvo-r22Jef27Rh55Xl5O2gDycsldwzU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAdmin}}/orders",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "active customers overview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMDM2MDEsImV4cCI6MTcwMTAwNDgwMX0.I1JR39ay1u-lJvo-r22Jef27Rh55Xl5O2gDycsldwzU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAdmin}}/customers_overview",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"customers_overview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get levels overview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMDM2MDEsImV4cCI6MTcwMTAwNDgwMX0.I1JR39ay1u-lJvo-r22Jef27Rh55Xl5O2gDycsldwzU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAdmin}}/levels_overview",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"levels_overview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "waiting list overview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMDM2MDEsImV4cCI6MTcwMTAwNDgwMX0.I1JR39ay1u-lJvo-r22Jef27Rh55Xl5O2gDycsldwzU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAdmin}}/waitinglist_overview",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"waitinglist_overview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all orders by user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMDM2MDEsImV4cCI6MTcwMTAwNDgwMX0.I1JR39ay1u-lJvo-r22Jef27Rh55Xl5O2gDycsldwzU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAdmin}}/orders_statistics_by_user?id=3",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"orders_statistics_by_user"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "home page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/home/dashboard",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"home",
+						"dashboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insert product info",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMTI1OTIsImV4cCI6MTcwMTAxMzc5Mn0.EoiDX65pchxCYfCFjEdI0cAD6w4k4hI-1VYwEP_U9QY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Ancient flat in the corner of Green Avenue\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrlAdmin}}/new_product_info",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"new_product_info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insert address",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMTI1OTIsImV4cCI6MTcwMTAxMzc5Mn0.EoiDX65pchxCYfCFjEdI0cAD6w4k4hI-1VYwEP_U9QY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"street\": \"Green Avenue\",\r\n    \"housenumber\": 27\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrlAdmin}}/new_address_info",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"new_address_info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insert apartment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMjUxMDYsImV4cCI6MTcwMTAyNjMwNn0.YC1PjYBjfDIuC4Qcl-ibeYyxYF0TdJ9UxZLxskCM-es",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    // \"aptQuantityofrooms\": 1,\r\n    // \"aptFree\": 1,\r\n    // \"aptSale\": 10,\r\n    // \"addressId\": 42,\r\n    // \"productInformationId\": 41\r\n        \"aptQuantityofrooms\": 1,\r\n        \"aptFree\": 1,\r\n        \"aptSale\": 10,\r\n        \"addressId\": 41,\r\n        \"productInformationId\": 41\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrlAdmin}}/new_apartment_info",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"new_apartment_info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "info about next level",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMjIzODUsImV4cCI6MTcwMTAyMzU4NX0.KbBb_CkEtBdkRKWSLpgIGVZtN1FAk147LIEONejAyOg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlUser}}/next_level",
+					"host": [
+						"{{baseUrlUser}}"
+					],
+					"path": [
+						"next_level"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "info about birthday",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMTA1NDAsImV4cCI6MTcwMTAxMTc0MH0.occKV1E3eL5UhYLHss7U0Z3rYMVrDhxqkQImTyS9qzI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlUser}}/birthday_actions",
+					"host": [
+						"{{baseUrlUser}}"
+					],
+					"path": [
+						"birthday_actions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actual status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMTg5NDUsImV4cCI6MTcwMTAyMDE0NX0.AZLydtbbd-HbltDc3FZg-YxYT5kSDB0capZWpnkr2Sw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAdmin}}/user_status",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"user_status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "levels overview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMTg5NDUsImV4cCI6MTcwMTAyMDE0NX0.AZLydtbbd-HbltDc3FZg-YxYT5kSDB0capZWpnkr2Sw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAdmin}}/levels_history",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"levels_history"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "orders overview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMTg5NDUsImV4cCI6MTcwMTAyMDE0NX0.AZLydtbbd-HbltDc3FZg-YxYT5kSDB0capZWpnkr2Sw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAdmin}}/orders_overview",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"orders_overview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "address overview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMTg5NDUsImV4cCI6MTcwMTAyMDE0NX0.AZLydtbbd-HbltDc3FZg-YxYT5kSDB0capZWpnkr2Sw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrlAdmin}}/address_overview",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"address_overview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "udate levels",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMjIzODUsImV4cCI6MTcwMTAyMzU4NX0.KbBb_CkEtBdkRKWSLpgIGVZtN1FAk147LIEONejAyOg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"customerIds\" : [\r\n        41, 21\r\n    ],\r\n    \"newLevelId\" : 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrlAdmin}}/update_levels",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"update_levels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete apartments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MkBnbWFpbC5jb20iLCJpYXQiOjE3MDEwMjUxMDYsImV4cCI6MTcwMTAyNjMwNn0.YC1PjYBjfDIuC4Qcl-ibeYyxYF0TdJ9UxZLxskCM-es",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"aptsId\" : [\r\n        67, 68\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrlAdmin}}/update_apartments",
+					"host": [
+						"{{baseUrlAdmin}}"
+					],
+					"path": [
+						"update_apartments"
 					]
 				}
 			},

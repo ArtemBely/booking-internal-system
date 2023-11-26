@@ -6,10 +6,11 @@ import com.example.bookingmodel.data.entity.Role;
 import com.example.bookingmodel.data.mapper.CustomerMapper;
 import com.example.bookingmodel.interfaces.IUserService;
 import com.example.bookingmodel.repositories.CustomerRepository;
+import com.example.bookingmodel.utilities.AuthUtils;
+import com.example.bookingmodel.utilities.DefaultConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -26,41 +27,31 @@ public class UserService implements IUserService {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private String getAllUsers;
-
-    private String getAllUserRoles;
+    private String getNextLevel, getBirthdayData;
 
     @Autowired
     public UserService(CustomerRepository customerRepository,
                        CustomerMapper customerMapper,
                        JdbcTemplate jdbcTemplate,
-                       @Value("${sql.allUsers}") String findRolesByCustomerIdQuery,
-                       @Value("${sql.findRolesByCustomerId}") String getAllUserRoles) {
+                       @Value("${sql.getNextLevel}") String getNextLevel,
+                       @Value("${sql.getBirthdayData}") String getBirthdayData) {
         this.customerRepository = customerRepository;
         this.customerMapper = customerMapper;
         this.jdbcTemplate = jdbcTemplate;
-        this.getAllUsers = findRolesByCustomerIdQuery;
-        this.getAllUserRoles = getAllUserRoles;
+        this.getNextLevel = getNextLevel;
+        this.getBirthdayData = getBirthdayData;
     }
 
-    public List<CustomerDto> findAllUsersByQuery() {
-        String sd = getAllUsers;
-        List<Customer> customers = jdbcTemplate.query(sd, new BeanPropertyRowMapper<>(Customer.class));
-        setCustomersRoles(customers);
-        return customers
-                .stream()
-                .map(customerMapper::mapToDto)
-                .collect(Collectors.toList());
+
+    @Override
+    public String getNextLevel() {
+        return jdbcTemplate.queryForObject(getNextLevel, new Object[]{AuthUtils.getActualLevelId()}, String.class);
     }
 
-    private void setCustomersRoles(List<Customer> customers) {
-        customers.forEach(customer -> {
-            List<Role> roles = findRolesByCustomerId(customer.getId());
-            customer.setRoles(roles);
-        });
+    @Override
+    public String getBirthdayData() {
+        Object[] params = new Object[]{AuthUtils.getActualBirthday(), DefaultConstants.DATE_FORMAT};
+        return jdbcTemplate.queryForObject(getBirthdayData, params, String.class);
     }
 
-    private List<Role> findRolesByCustomerId(int customerId) {
-        return jdbcTemplate.query(getAllUserRoles, new BeanPropertyRowMapper<>(Role.class), customerId);
-    }
 }

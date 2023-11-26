@@ -30,7 +30,4 @@ public class Address {
     @Column(name = "HOUSENUMBER", nullable = false)
     private Long housenumber;
 
-    @Column(name = "ORDER_ORD_ID")
-    private Long orderOrdId;
-
 }

@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
@@ -50,8 +49,8 @@ public class Customer implements UserDetails {
     private Long levelId;
 
 
-    @Column(name = "ADDRESS_ID")
-    private Long addressId;
+    @Column(name = "APARTMENT_ID")
+    private Long apartmentId;
 
     @Column(name = "BINARY_CONTENT_ID")
     private Long contentId;
@@ -79,6 +78,12 @@ public class Customer implements UserDetails {
     public String getPassword() {
         return password;
     }
+
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        // Найти пользователя по username и создать CustomUserDetails
+//        return new CustomUserDetails(...);
+//    }
 
     @Override
     public String getUsername() {

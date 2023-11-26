@@ -1,0 +1,27 @@
+{
+	"id": "c57df6fc-7f3e-46be-8200-34a2ca4055df",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:8080",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "baseUrlAdmin",
+			"value": "localhost:8080/api/v1/admin",
+			"type": "secret",
+			"enabled": true
+		},
+		{
+			"key": "baseUrlUser",
+			"value": "localhost:8080/api/v1/user",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2023-11-24T16:02:57.208Z",
+	"_postman_exported_using": "Postman/10.20.3"
+}

@@ -1,7 +1,6 @@
 package com.example.bookingmodel.data.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +13,10 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "\"ORDER\"")
+@Builder(toBuilder = true)
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
 
     @Id

@@ -1,7 +1,6 @@
 package com.example.bookingmodel.data.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Immutable;
 
 import javax.persistence.Column;
@@ -18,6 +17,9 @@ import javax.validation.constraints.Size;
 @Setter
 @Entity
 @Immutable
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "CUSTOMEROVERVIEW")
 public class Customeroverview {
 
@@ -41,8 +43,6 @@ public class Customeroverview {
     @Column(name = "STREET", nullable = false, length = 30)
     private String street;
 
-    @Column(name = "ID_ROLE")
-    private Short idRole;
 
     @Size(max = 50)
     @Column(name = "ROLENAME", length = 50)

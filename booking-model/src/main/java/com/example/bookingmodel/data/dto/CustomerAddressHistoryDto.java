@@ -6,25 +6,25 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.Instant;
 
 /**
- * DTO for {@link com.example.bookingmodel.data.entity.Address}
+ * DTO for {@link com.example.bookingmodel.data.entity.CustomerAddressHistory}
  */
+@Builder(toBuilder = true)
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Setter
-@Getter
-public class AddressDto implements Serializable {
+public class CustomerAddressHistoryDto implements Serializable {
 
     @JsonIgnore
     Long id;
     @NotNull
-    @Size(max = 30)
-    String street;
-    @NotNull
-    Long housenumber;
+    Long customerId;
+    Long oldAddressId;
+    Long newAddressId;
+    Instant changeDate;
 }

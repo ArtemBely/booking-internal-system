@@ -61,7 +61,7 @@ public class CustomerDto {
     private Long levelId;
 
 
-    private Long addressId;
+    private Long apartmentId;
 
 
     private Long contentId;

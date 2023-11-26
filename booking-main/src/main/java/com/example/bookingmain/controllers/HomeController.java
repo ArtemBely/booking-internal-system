@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController("homeController")
 @RequiredArgsConstructor
-@RequestMapping("/test")
+@RequestMapping("/home")
 public class HomeController {
 
-    @GetMapping("/hello")
+    @GetMapping("/dashboard")
     public String getHello() {
         System.out.println("HELLO");
         return "Hello there";
