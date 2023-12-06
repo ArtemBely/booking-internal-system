@@ -2,6 +2,7 @@ package com.example.bookingmodel.interfaces;
 
 import com.example.bookingmodel.data.dto.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface IAdminSpotsManipulationService {
@@ -18,4 +19,14 @@ public interface IAdminSpotsManipulationService {
     List<OrderAuditDto> ordersOverview();
 
     List<CustomerAddressHistoryDto> customerAddressHistory();
+
+    String createAddressApartmentProduct(String street, int houseNumber, String description, int quantityOfRooms, int aptFree, int aptSale);
+
+    List<FavoriteDto> updateFavoritesBasedOnHistory();
+
+    List<BestsellersoverviewDto> getBestsellers();
+
+    List<LogsHistoryDto> retrieveLogs();
+
+    BigDecimal calculateTotalOrdersAmount(int customerId, String startDate, String endDate);
 }

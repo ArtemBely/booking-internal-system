@@ -44,7 +44,7 @@ allprojects {
         //implementation 'io.github.openfeign:feign-jackson'
         implementation 'io.github.openfeign:feign-jackson:9.3.1'
         //Generovani Swagger na zaklade rest api
-        //implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+        implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
         //Package for psql
         implementation 'org.postgresql:postgresql:42.6.0'
         //ModelMapper

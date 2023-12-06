@@ -24,4 +24,14 @@ public interface IAdminUsersManipulationService {
     String updateCustomersLevel(Integer[] customerIds, int newLevelId);
 
     String deleteApartments(Integer[] apartmentIds);
+
+    List<CustomerHistoryDto> getUserHistory(int id);
+
+    List<OrdersoverviewDto> findOrdersOverview();
+
+    List<LevelDto> getAllLevels();
+
+    List<RewardDto> getRewards();
+
+    int calculateOrders();
 }

@@ -1,5 +1,6 @@
 package com.example.bookingmain.controllers;
 
+import com.example.bookingauth.services.JWTService;
 import com.example.bookingmodel.data.dto.ProductInformationDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +17,4 @@ public class MainAdminController {
         return "Hello I'm admin";
     }
 
-//    @PostMapping("/new_product_info")
-//    public ProductInformationDto createNewProduct(@RequestBody ProductInformationDto productInformationDto) {
-//
-//    }
 }

@@ -8,19 +8,17 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
- * DTO for {@link com.example.bookingmodel.data.entity.Reward}
+ * DTO for {@link com.example.bookingmodel.data.entity.LogsHistory}
  */
 @Data
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class RewardDto implements Serializable {
+public class LogsHistoryDto implements Serializable {
 
     @JsonIgnore
     Long id;
     @NotNull
-    @Size(max = 100)
-    String title;
-    @NotNull
-    Long levelId;
+    @Size(max = 1000)
+    String description;
 }

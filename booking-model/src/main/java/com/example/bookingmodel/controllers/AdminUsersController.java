@@ -70,5 +70,35 @@ public class AdminUsersController {
         log.info("Start to update apartments globally...");
         return adminService.deleteApartments(deleteApartmentsDto.getAptsId());
     }
+
+    @PostMapping("/get_customers_history")
+    public List<CustomerHistoryDto> getCustomersHistory(@RequestBody @Valid IdentRequestDto identRequestDto) {
+        log.info("Start to retrieve user history...");
+        return adminService.getUserHistory(identRequestDto.getId());
+    }
+
+    @GetMapping("/users_orders_overview")
+    public List<OrdersoverviewDto> getOrdersOverview() {
+        log.info("Start to retrieve orders overview...");
+        return adminService.findOrdersOverview();
+    }
+
+    @GetMapping("/levels")
+    public List<LevelDto> getAllLevels() {
+        log.info("Start to retrieve levels...");
+        return adminService.getAllLevels();
+    }
+
+    @GetMapping("/rewards")
+    public List<RewardDto> getRewards() {
+        log.info("Start to retrieve rewards...");
+        return adminService.getRewards();
+    }
+
+    @GetMapping("/calculate_orders")
+    public int calculateOrders() {
+        log.info("Start to calculate orders...");
+        return adminService.calculateOrders();
+    }
 }
 

@@ -30,6 +30,10 @@ dependencies {
     //Security
     implementation 'org.springframework.security:spring-security-core:6.1.2'
 
+    //Swagger
+    implementation 'io.springfox:springfox-swagger2:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
     // JWT
     implementation "com.auth0:java-jwt:3.16.0"
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'

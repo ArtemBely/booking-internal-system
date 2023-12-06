@@ -9,15 +9,16 @@ import com.example.bookingmodel.utilities.AuthUtils;
 import com.example.bookingmodel.utilities.DefaultConstants;
 import lombok.extern.slf4j.Slf4j;
 import oracle.jdbc.OracleConnection;
+import oracle.jdbc.OracleTypes;
 import oracle.sql.ARRAY;
 import oracle.sql.ArrayDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.*;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,13 +38,19 @@ public class AdminUsersManipulationService implements IAdminUsersManipulationSer
 
     private final LevelOverviewMapper levelOverviewMapper;
 
+    private final OrdersOverviewMapper ordersOverviewMapper;
+
+    private final LevelMapper levelMapper;
+
+    private final RewardMapper rewardMapper;
+
     private final OrderMapper orderMapper;
 
     private final JdbcTemplate jdbcTemplate;
 
     private String getAllUsers, getAllUserRoles, getAllOrders,
             getOrdersByUser, getOverview, getLevelsOverview, getWaitingListOverview,
-            getUserStatus;
+            getUserStatus, getOrdersOverview, allLevels, getReward, calculateAllOrders;
 
     @Autowired
     public AdminUsersManipulationService(CustomerRepository customerRepository,
@@ -52,6 +59,9 @@ public class AdminUsersManipulationService implements IAdminUsersManipulationSer
                                          WLOverviewMapper wlOverviewMapper,
                                          LevelOverviewMapper levelOverviewMapper,
                                          OrderMapper orderMapper,
+                                         LevelMapper levelMapper,
+                                         RewardMapper rewardMapper,
+                                         OrdersOverviewMapper ordersOverviewMapper,
                                          JdbcTemplate jdbcTemplate,
                                          @Value("${sql.allUsers}") String findRolesByCustomerIdQuery,
                                          @Value("${sql.findRolesByCustomerId}") String getAllUserRoles,
@@ -59,8 +69,12 @@ public class AdminUsersManipulationService implements IAdminUsersManipulationSer
                                          @Value("${sql.getOrdersByUser}") String getOrdersByUser,
                                          @Value("${sql.getOverview}") String getOverview,
                                          @Value("${sql.getLevelsOverview}") String getLevelsOverview,
+                                         @Value("${sql.getOrdersOverview}") String getOrdersOverview,
                                          @Value("${sql.getWaitingListOverview}") String getWaitingListOverview,
-                                         @Value("${sql.getUserStatus}") String getUserStatus
+                                         @Value("${sql.getUserStatus}") String getUserStatus,
+                                         @Value("${sql.allLevels}") String allLevels,
+                                         @Value("${sql.calculateAllOrders}") String calculateAllOrders,
+                                         @Value("${sql.getReward}") String getReward
     ) {
         this.customerRepository = customerRepository;
         this.customerMapper = customerMapper;
@@ -72,10 +86,17 @@ public class AdminUsersManipulationService implements IAdminUsersManipulationSer
         this.getAllOrders = getAllOrders;
         this.getOrdersByUser = getOrdersByUser;
         this.getOverview = getOverview;
+        this.allLevels = allLevels;
+        this.calculateAllOrders = calculateAllOrders;
+        this.getReward = getReward;
+        this.getOrdersOverview = getOrdersOverview;
         this.getWaitingListOverview = getWaitingListOverview;
         this.getLevelsOverview = getLevelsOverview;
         this.levelOverviewMapper = levelOverviewMapper;
+        this.ordersOverviewMapper = ordersOverviewMapper;
         this.wlOverviewMapper = wlOverviewMapper;
+        this.levelMapper = levelMapper;
+        this.rewardMapper = rewardMapper;
         this.getUserStatus = getUserStatus;
     }
 
@@ -187,6 +208,70 @@ public class AdminUsersManipulationService implements IAdminUsersManipulationSer
                 try { connection.close(); } catch (Exception e) { e.printStackTrace(); }
             }
             return DefaultConstants.SUCCESS_MSG;
+        }
+    }
+
+    @Override
+    public List<CustomerHistoryDto> getUserHistory(int id) {
+        List<SqlParameter> parameters = Arrays.asList(
+                new SqlParameter(Types.INTEGER),
+                new SqlOutParameter("cur_out", OracleTypes.CURSOR, new CustomerAddressHistoryMapper()) // Выходной курсор
+        );
+
+        Map<String, Object> resultMap = jdbcTemplate.call(new CallableStatementCreator() {
+            @Override
+            public CallableStatement createCallableStatement(java.sql.Connection connection) throws SQLException {
+                CallableStatement callableStatement = connection.prepareCall("{CALL GetCustomerAddressHistory(?, ?)}");
+                callableStatement.setInt(1, id);
+                callableStatement.registerOutParameter(2, OracleTypes.CURSOR); // OracleTypes может потребовать импорта
+                return callableStatement;
+            }
+        }, parameters);
+
+        return (List<CustomerHistoryDto>) resultMap.get("cur_out");
+    }
+
+    @Override
+    public List<OrdersoverviewDto> findOrdersOverview() {
+        List<Ordersoverview> overview = jdbcTemplate.query(getOrdersOverview, new BeanPropertyRowMapper<>(Ordersoverview.class));
+        return overview.stream()
+                .map(ordersOverviewMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LevelDto> getAllLevels() {
+        List<Level> overview = jdbcTemplate.query(allLevels, new BeanPropertyRowMapper<>(Level.class));
+        return overview.stream()
+                .map(levelMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RewardDto> getRewards() {
+        List<Reward> overview = jdbcTemplate.query(getReward, new BeanPropertyRowMapper<>(Reward.class));
+        return overview.stream()
+                .map(rewardMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public int calculateOrders() {
+        return jdbcTemplate.queryForObject(calculateAllOrders, Integer.class);
+    }
+
+    private static class CustomerAddressHistoryMapper implements RowMapper<CustomerHistoryDto> {
+        @Override
+        public CustomerHistoryDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+            CustomerHistoryDto history = new CustomerHistoryDto();
+            history.setId((long) rs.getInt("history_id"));
+            history.setCustomerId((long) rs.getInt("customer_id"));
+            history.setOldAddressId((long) rs.getInt("old_address_id"));
+            history.setNewAddressId((long) rs.getInt("new_address_id"));
+            history.setChangeDate(rs.getDate("change_date"));
+            history.setAddressChangeLevel(String.valueOf(rs.getInt("address_change_level")));
+            history.setAddressPath(rs.getString("address_path"));
+            return history;
         }
     }
 }

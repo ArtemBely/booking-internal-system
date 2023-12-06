@@ -1,21 +1,20 @@
 package com.example.bookingmodel.services;
 
 import com.example.bookingmodel.data.dto.*;
-import com.example.bookingmodel.data.entity.CustomerAddressHistory;
-import com.example.bookingmodel.data.entity.CustomerLevelHistory;
-import com.example.bookingmodel.data.entity.OrderAudit;
-import com.example.bookingmodel.data.entity.Waitinglistoverview;
-import com.example.bookingmodel.data.mapper.AddressHistoryMapper;
-import com.example.bookingmodel.data.mapper.LevelHistoryMapper;
-import com.example.bookingmodel.data.mapper.OrderAuditMapper;
+import com.example.bookingmodel.data.entity.*;
+import com.example.bookingmodel.data.mapper.*;
 import com.example.bookingmodel.interfaces.IAdminSpotsManipulationService;
+import com.example.bookingmodel.utilities.DefaultConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,10 +29,17 @@ public class AdminSpotsManipulationService implements IAdminSpotsManipulationSer
 
     private final OrderAuditMapper orderAuditMapper;
 
+    private final BestsellersMapper bestsellersMapper;
+
+    private final FavoritesMapper favoritesMapper;
+
     private final AddressHistoryMapper addressHistoryMapper;
 
+    private final LogsHistoryMapper logsHistoryMapper;
+
     private String insertProductInformation, insertAddressInformation, insertApartmentInformation,
-            orderAudit, addressHistory, levelsHistory;
+            orderAudit, addressHistory, levelsHistory, callFavorites, getFavorites, getBestsellersOverview,
+            getLogs, calculateProfitByUser;
 
     @Autowired
     public AdminSpotsManipulationService(JdbcTemplate jdbcTemplate,
@@ -43,9 +49,17 @@ public class AdminSpotsManipulationService implements IAdminSpotsManipulationSer
                                          @Value("${sql.addressHistory}") String addressHistory,
                                          @Value("${sql.orderAudit}") String orderAudit,
                                          @Value("${sql.levelsHistory}") String levelsHistory,
+                                         @Value("${sql.getFavorites}") String getFavorites,
+                                         @Value("${sql.callFavorites}") String callFavorites,
+                                         @Value("${sql.getBestsellersOverview}") String getBestsellersOverview,
+                                         @Value("${sql.getLogs}") String getLogs,
+                                         @Value("${sql.calculateProfitByUser}") String calculateProfitByUser,
                                          LevelHistoryMapper levelHistoryMapper,
+                                         BestsellersMapper bestsellersMapper,
+                                         FavoritesMapper favoritesMapper,
                                          OrderAuditMapper orderAuditMapper,
-                                         AddressHistoryMapper addressHistoryMapper) {
+                                         AddressHistoryMapper addressHistoryMapper,
+                                         LogsHistoryMapper logsHistoryMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.insertProductInformation = insertProductInformation;
         this.insertAddressInformation = insertAddressInformation;
@@ -53,9 +67,17 @@ public class AdminSpotsManipulationService implements IAdminSpotsManipulationSer
         this.addressHistory = addressHistory;
         this.orderAudit = orderAudit;
         this.levelsHistory = levelsHistory;
+        this.getBestsellersOverview = getBestsellersOverview;
+        this.getFavorites = getFavorites;
+        this.calculateProfitByUser = calculateProfitByUser;
+        this.callFavorites = callFavorites;
         this.levelHistoryMapper = levelHistoryMapper;
         this.orderAuditMapper = orderAuditMapper;
+        this.bestsellersMapper = bestsellersMapper;
         this.addressHistoryMapper = addressHistoryMapper;
+        this.favoritesMapper = favoritesMapper;
+        this.logsHistoryMapper = logsHistoryMapper;
+        this.getLogs = getLogs;
     }
 
     @Override
@@ -103,6 +125,63 @@ public class AdminSpotsManipulationService implements IAdminSpotsManipulationSer
         return overview.stream()
                 .map(addressHistoryMapper::mapToDto)
                 .collect(Collectors.toList());
+    }
+
+    public String createAddressApartmentProduct(String street, int houseNumber, String description, int quantityOfRooms, int aptFree, int aptSale) {
+        try {
+            jdbcTemplate.update(
+                    connection -> {
+                        CallableStatement cs = connection.prepareCall(
+                                "{CALL create_address_apartment_product(?, ?, ?, ?, ?, ?)}"
+                        );
+                        cs.setString(1, street);
+                        cs.setInt(2, houseNumber);
+                        cs.setString(3, description);
+                        cs.setInt(4, quantityOfRooms);
+                        cs.setInt(5, aptFree);
+                        cs.setDouble(6, aptSale);
+                        return cs;
+                    }
+            );
+        } catch (Exception ex) {
+            log.error("Error: {}", ex);
+            return ex.getMessage();
+        }
+        return DefaultConstants.SUCCESS_MSG;
+    }
+
+    public List<FavoriteDto> updateFavoritesBasedOnHistory() {
+        try {
+            jdbcTemplate.execute("{CALL update_favorite_for_frequent_apartments}");
+        } catch (DataAccessException ex) {
+            log.error("Error occurred during update_favorites_based_on_history call", ex);
+        } finally {
+            List<Favorite> favorites = jdbcTemplate.query(getFavorites, new BeanPropertyRowMapper<>(Favorite.class));
+            return favorites.stream()
+                    .map(favoritesMapper::mapToDto)
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public List<BestsellersoverviewDto> getBestsellers() {
+        List<Bestsellersoverview> overview = jdbcTemplate.query(getBestsellersOverview, new BeanPropertyRowMapper<>(Bestsellersoverview.class));
+        return overview.stream()
+                .map(bestsellersMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LogsHistoryDto> retrieveLogs() {
+        List<LogsHistory> overview = jdbcTemplate.query(getLogs, new BeanPropertyRowMapper<>(LogsHistory.class));
+        return overview.stream()
+                .map(logsHistoryMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public BigDecimal calculateTotalOrdersAmount(int customerId, String startDate, String endDate) {
+        return jdbcTemplate.queryForObject(calculateProfitByUser, BigDecimal.class, customerId, startDate, endDate);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.bookingauth.services;
 
-import com.auth0.jwt.interfaces.Claim;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -8,20 +7,27 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 //@ConfigurationProperties(prefix = "application.security.jwt")
 public class JWTService {
 
@@ -33,6 +39,7 @@ public class JWTService {
     private long jwtExpiration;
     @Value("${application.security.jwt.refresh-token.expiration:2100000}")
     private long refreshExpiration;
+
 
 //    private static final String SECRET_KEY = "e6e0f7f3da92315175573342a6f43af384a6b4a6bbff7229decf83e5907f6d62";
 
@@ -86,6 +93,34 @@ public class JWTService {
                 .getBody();
     }
 
+    /**
+     * Simulate switching to user.
+     *
+     * @param userEmail incoming user id which was chosen
+     * @param adminUserDetails
+     * @return token which include userEmail
+     */
+    public String generateImpersonationToken(String userEmail, UserDetails adminUserDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("impersonateUserId", userEmail);
+        return buildToken(claims, adminUserDetails, jwtExpiration);
+    }
+
+    public String extractImpersonateUserId(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("impersonateUserId", String.class);
+    }
+
+    public String generateToAdminToken(String userEmail, UserDetails adminUserDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userEmail", userEmail);
+        return buildToken(claims, adminUserDetails, jwtExpiration);
+    }
+
+    public String extractToAdminUserId(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("userEmail", String.class);
+    }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
