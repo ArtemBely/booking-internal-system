@@ -34,4 +34,6 @@ public interface IAdminUsersManipulationService {
     List<RewardDto> getRewards();
 
     int calculateOrders();
+
+    void deleteUser(int id);
 }

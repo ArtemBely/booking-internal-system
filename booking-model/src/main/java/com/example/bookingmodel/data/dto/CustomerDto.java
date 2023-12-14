@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CustomerDto {
 
-    @JsonIgnore
     private int id;
 
     @NotNull

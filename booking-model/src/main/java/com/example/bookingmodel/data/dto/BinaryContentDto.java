@@ -1,6 +1,6 @@
 package com.example.bookingmodel.data.dto;
 
-import lombok.Value;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,7 +10,10 @@ import java.time.LocalDate;
 /**
  * DTO for {@link com.example.bookingmodel.data.entity.BinaryContent}
  */
-@Value
+@Data
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class BinaryContentDto implements Serializable {
     Long id;
     @NotNull

@@ -260,6 +260,25 @@ public class AdminUsersManipulationService implements IAdminUsersManipulationSer
         return jdbcTemplate.queryForObject(calculateAllOrders, Integer.class);
     }
 
+    /**
+     * Method delete customer entity globally, with child rows from another tables (by using SQL procedure)
+     * @param id user ID to delete
+     */
+    public void deleteUser(int id) {
+        try {
+            jdbcTemplate.update(
+                    connection -> {
+                        CallableStatement cs = connection.prepareCall("{CALL DeleteCustomerCascade(?)}");
+                        cs.setInt(1, id);
+                        return cs;
+                    }
+            );
+        } catch (Exception ex) {
+            log.error("Error deleting user: {}", ex.getMessage());
+            throw ex; // Rethrow the exception to let the controller handle it
+        }
+    }
+
     private static class CustomerAddressHistoryMapper implements RowMapper<CustomerHistoryDto> {
         @Override
         public CustomerHistoryDto mapRow(ResultSet rs, int rowNum) throws SQLException {

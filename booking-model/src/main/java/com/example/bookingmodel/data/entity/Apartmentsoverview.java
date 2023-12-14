@@ -25,7 +25,7 @@ public class Apartmentsoverview {
 
     @Id
     @Column(name = "ID")
-    private byte[] id;
+    private int id;
 
     @Size(max = 30)
     @NotNull

@@ -16,16 +16,20 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class ApartmentsoverviewDto implements Serializable {
 
-    @JsonIgnore
-    byte[] id;
+    private int id;
 
     @NotNull
     @Size(max = 30)
     String street;
+
     int housenumber;
+
     @Size(max = 500)
     String description;
+
     int quantityofrooms;
+
     int aptfree;
+
     int aptsale;
 }

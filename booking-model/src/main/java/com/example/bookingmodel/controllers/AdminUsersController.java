@@ -4,6 +4,8 @@ import com.example.bookingmodel.data.dto.*;
 import com.example.bookingmodel.interfaces.IAdminUsersManipulationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -100,5 +102,16 @@ public class AdminUsersController {
         log.info("Start to calculate orders...");
         return adminService.calculateOrders();
     }
+
+    @DeleteMapping("/delete_user")
+    public ResponseEntity<?> deleteUser(@RequestParam int id) {
+        try {
+            adminService.deleteUser(id);
+            return ResponseEntity.ok().body("User with ID: " + id + " has been deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting user: " + e.getMessage());
+        }
+    }
+
 }
 

@@ -1,9 +1,11 @@
 package com.example.bookingauth.services;
 
 import com.example.bookingmodel.data.dto.CustomerDto;
+import com.example.bookingmodel.data.dto.RoleDto;
 import com.example.bookingmodel.data.entity.Customer;
 import com.example.bookingmodel.data.entity.UserRole;
 import com.example.bookingmodel.data.mapper.CustomerMapper;
+import com.example.bookingmodel.data.mapper.RoleMapper;
 import com.example.bookingmodel.repositories.CustomerRepository;
 import com.example.bookingmodel.repositories.UserRoleRepository;
 import com.example.bookingmodel.utilities.DefaultConstants;
@@ -13,7 +15,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -21,6 +26,8 @@ import java.util.Optional;
 public class UserAuthService {
 
     private final CustomerMapper customerMapper;
+
+    private final RoleMapper roleMapper;
 
     private final CustomerRepository customerRepository;
 
@@ -62,6 +69,8 @@ public class UserAuthService {
     }
 
     public AuthenticationResponse register(CustomerDto request) {
+        List<RoleDto> defaultRole = new ArrayList<>();
+        defaultRole.add(new RoleDto("USER", "BOOKING.USER", "default user role"));
         Customer customerEntity = customerMapper.mapToEntity(request);
         customerEntity.setPassword(encryptionService.getEncodePass(request.getPassword()));
         customerEntity.setLevelId(DefaultConstants.DEFAULT_USER_LEVEL);
@@ -71,6 +80,15 @@ public class UserAuthService {
         var refreshToken = jwtService.generateRefreshToken(savedUser);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .id(request.getId())
+                .name(request.getName())
+                .surname(request.getSurname())
+                .phone(request.getPhone())
+                .email(request.getEmail())
+                .contentId(request.getContentId())
+                .levelId(request.getLevelId())
+                .dateOfBirth(request.getDateOfBirth())
+                .roles(defaultRole)
                 .build();
     }
 
@@ -99,6 +117,17 @@ public class UserAuthService {
                 .token(jwtToken)
 //                .accessToken(jwtToken)
 //                .refreshToken(refreshToken)
+                .id(user.getId())
+                .name(user.getName())
+                .surname(user.getSurname())
+                .dateOfBirth(user.getDateOfBirth())
+                .phone(user.getPhone())
+                .email(user.getEmail())
+                .levelId(user.getLevelId())
+                .contentId(user.getContentId())
+                .roles(user.getRoles().stream()
+                        .map(roleMapper::mapToDto)
+                        .collect(Collectors.toList()))
                 .build();
     }
 }

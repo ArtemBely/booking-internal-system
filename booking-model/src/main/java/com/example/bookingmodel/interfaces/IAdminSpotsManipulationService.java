@@ -22,6 +22,10 @@ public interface IAdminSpotsManipulationService {
 
     String createAddressApartmentProduct(String street, int houseNumber, String description, int quantityOfRooms, int aptFree, int aptSale);
 
+    String updateAddressApartmentProduct(String street, String description, int aptFree, double aptSale, int id);
+
+    void deleteApartment(int apartmentId);
+
     List<FavoriteDto> updateFavoritesBasedOnHistory();
 
     List<BestsellersoverviewDto> getBestsellers();

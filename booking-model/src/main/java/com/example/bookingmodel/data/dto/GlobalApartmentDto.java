@@ -10,17 +10,18 @@ import lombok.NonNull;
 @Data
 public class GlobalApartmentDto {
 
+    private int id;
 
     @NonNull
     private String street;
 
-    @NonNull
+//    @NonNull
     private int houseNumber;
 
     @NonNull
     private String description;
 
-    @NonNull
+//    @NonNull
     private int quantityOfRooms;
 
     @NonNull

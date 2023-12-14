@@ -5,6 +5,8 @@ import com.example.bookingmodel.interfaces.IAdminSpotsManipulationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -56,6 +58,22 @@ public class AdminSpotsController {
         return adminService.createAddressApartmentProduct(globalApartmentDto.getStreet(), globalApartmentDto.getHouseNumber(),
                 globalApartmentDto.getDescription(), globalApartmentDto.getQuantityOfRooms(),
                 globalApartmentDto.getAptFree(), globalApartmentDto.getAptSale());
+    }
+
+    @PostMapping("/update_global_apartment")
+    public String updateGlobalApartment(@RequestParam int aptId, @RequestBody GlobalApartmentDto globalApartmentDto) {
+        return adminService.updateAddressApartmentProduct(globalApartmentDto.getStreet(), globalApartmentDto.getDescription(),
+                globalApartmentDto.getAptFree(), globalApartmentDto.getAptSale(), aptId);
+    }
+
+    @DeleteMapping("/delete_apartments_globally")
+    public ResponseEntity<?> deleteApartment(@RequestParam int id) {
+        try {
+            adminService.deleteApartment(id);
+            return ResponseEntity.ok().body("Apartment with ID: " + id + " has been deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting apartment: " + e.getMessage());
+        }
     }
 
     @GetMapping("/get_favorites")

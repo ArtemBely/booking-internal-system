@@ -150,6 +150,40 @@ public class AdminSpotsManipulationService implements IAdminSpotsManipulationSer
         return DefaultConstants.SUCCESS_MSG;
     }
 
+    @Override
+    public String updateAddressApartmentProduct(String street, String description, int aptFree, double aptSale, int id) {
+        try {
+            jdbcTemplate.update(
+                    connection -> {
+                        CallableStatement cs = connection.prepareCall(
+                                "{CALL update_address_apartment_product(?, ?, ?, ?, ?)}"
+                        );
+                        cs.setInt(1, id);
+                        cs.setString(2, street);
+                        cs.setString(3, description);
+                        cs.setInt(4, aptFree);
+                        cs.setDouble(5, aptSale);
+                        return cs;
+                    }
+            );
+        } catch (Exception ex) {
+            log.error("Error updating apartment: {}", ex.getMessage());
+            return ex.getMessage();
+        }
+        return DefaultConstants.SUCCESS_MSG;
+    }
+
+    @Override
+    public void deleteApartment(int apartmentId) {
+        jdbcTemplate.update(
+                connection -> {
+                    CallableStatement cs = connection.prepareCall("{CALL delete_address_apartment_product(?)}");
+                    cs.setInt(1, apartmentId);
+                    return cs;
+                }
+        );
+    }
+
     public List<FavoriteDto> updateFavoritesBasedOnHistory() {
         try {
             jdbcTemplate.execute("{CALL update_favorite_for_frequent_apartments}");
